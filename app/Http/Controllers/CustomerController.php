@@ -3,24 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Customer;
+use App\Models\Customer; // Importing the Customer model
 
 class CustomerController extends Controller
 {
-    public function store(Request $request)
+    // Method to show the form view
+    public function showForm()
     {
+        return view('home'); // Renders the customer_form.blade.php view
+    }
+
+    // Method to handle form submission
+    public function submitForm(Request $request)
+    {
+        // Validate the form data using Laravel's validation rules
         $request->validate([
-            'name' => 'required|string|max:255',
-            'address' => 'required|string',
-            'contact_number' => 'required|numeric',
+            'customerName' => 'required|string|max:255',
+            'customerAddress' => 'required|string',
+            'contactNo' => 'required|numeric',
         ]);
 
-        $customer = new Customer();
-        $customer->name = $request->name;
-        $customer->address = $request->address;
-        $customer->contact_number = $request->contact_number;
-        $customer->save();
+        // Create a new instance of the Customer model and save the data to the database
+        Customer::create([
+            'name' => $request->input('customerName'),
+            'address' => $request->input('customerAddress'),
+            'contact_no' => $request->input('contactNo'),
+        ]);
 
-        return redirect()->back()->with('success', 'Customer information saved successfully!');
+        // Redirect back to the form view with a success message using named route
+        return redirect()->route('customer.form')->with('success', 'Customer information has been submitted successfully.');
     }
 }

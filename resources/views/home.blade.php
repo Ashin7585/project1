@@ -50,7 +50,9 @@
 <body>
     <div class="form-container">
         <h2>Customer Information Form</h2>
-        <form>
+       
+        <form action="{{ route('customer.submit') }}" method="POST">
+            @csrf
             <div class="form-group">
                 <label for="customerName">Customer Name</label>
                 <input type="text" id="customerName" name="customerName" required>
@@ -66,6 +68,20 @@
             <div class="form-group">
                 <button type="submit">Submit</button>
             </div>
+            @if(session('success'))
+            <div>
+                {{ session('success') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         </form>
     </div>
 </body>

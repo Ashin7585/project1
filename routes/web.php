@@ -18,4 +18,6 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
+//Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
+Route::get('/customer-form', [CustomerController::class, 'showForm'])->name('customer.form');
+Route::post('/submit-form', [CustomerController::class, 'submitForm'])->name('customer.submit');
