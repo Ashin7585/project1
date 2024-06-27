@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Information Form</title>
+    <title>Edit Customer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,44 +54,35 @@
 </head>
 <body>
     <div class="form-container">
-        <h2>Customer Information Form</h2>
-        <form action="{{ route('customer.submit') }}" method="POST">
+        <h2>Edit Customer</h2>
+        <form action="{{ route('customers.update', $customer->id) }}" method="POST">
             @csrf
+            @method('PUT')
             <div class="form-group">
                 <label for="customerName">Customer Name</label>
-                <input type="text" id="customerName" name="customerName" required>
+                <input type="text" id="customerName" name="customerName" value="{{ $customer->name }}" required>
                 @if ($errors->has('customerName'))
                     <div class="error">{{ $errors->first('customerName') }}</div>
                 @endif
             </div>
             <div class="form-group">
                 <label for="customerAddress">Customer Address</label>
-                <textarea id="customerAddress" name="customerAddress" rows="4" required></textarea>
+                <textarea id="customerAddress" name="customerAddress" rows="4" required>{{ $customer->address }}</textarea>
                 @if ($errors->has('customerAddress'))
                     <div class="error">{{ $errors->first('customerAddress') }}</div>
                 @endif
             </div>
             <div class="form-group">
                 <label for="contactNo">Contact Number</label>
-                <input type="number" id="contactNo" name="contactNo" required>
+                <input type="number" id="contactNo" name="contactNo" value="{{ $customer->contact_no }}" required>
                 @if ($errors->has('contactNo'))
                     <div class="error">{{ $errors->first('contactNo') }}</div>
                 @endif
             </div>
             <div class="form-group">
-                <button type="submit">Submit</button>
+                <button type="submit">Update</button>
             </div>
-            @if(session('success'))
-            <div>
-                {{ session('success') }}
-            </div>
-            @endif
         </form>
-        <div class="form-group">
-            <a href="{{ route('customers.list') }}">
-                <button type="button">View Customers</button>
-            </a>
-        </div>
     </div>
 </body>
 </html>
